@@ -3,7 +3,9 @@
 # The code needs some clean up, non necessary "routes" that can be streamlined and a lot of
 # LEDs used that is not really needed, just used for developing purposes.
 # NOTE: As of September 2020, this payload script needs an alternative NETMODE file that uses
-# dnsmasq instead of stock Attack Mode odhcpd.
+# dnsmasq instead of stock Attack Mode odhcpd. Put the NETMODE file in /usr/bin
+# Also note that even if the MAC address of the Shark Jack is spoofed, it still shows up
+# as "shark", functionality to obfuscate/cloak the hostname may be added to the script.
 
 LED SETUP
 
