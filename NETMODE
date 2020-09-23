@@ -1,0 +1,36 @@
+#!/bin/bash
+
+function show_usage() {
+    echo "Usage: $0 [DHCP_CLIENT|DHCP_SERVER]"
+    echo ""
+}
+
+configure_dhcp_server() {
+    uci set network.lan.proto='static'
+    uci set network.lan.ipaddr='172.16.24.1'
+    uci set network.lan.netmask='255.255.255.0'
+    uci set network.lan.ip6assign='60'
+    #remove old dhcp options before setting new
+    uci -q delete dhcp.lan.dhcp_option
+    uci add_list dhcp.lan.dhcp_option="3,172.16.24.1"
+    #disables gateway
+    #uci add_list dhcp.lan.dhcp_option="3"
+    /etc/init.d/dnsmasq start
+}
+
+
+case $1 in
+    "DHCP_CLIENT")
+        uci set network.lan.proto='dhcp'
+        ;;
+    "DHCP_SERVER")
+        configure_dhcp_server    
+        ;;
+    *)
+        show_usage
+        exit 0
+        ;;
+esac
+
+uci commit network
+/etc/init.d/network restart
